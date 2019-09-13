@@ -9,6 +9,10 @@
 # Regarding docker data files, by default all data are stored in: /mount/k8s and some others can be used
 #
 potentialdatadirs="/mount/k8s /opt/rke/etcd-snapshots /opt/rancher /var/log/rancher/auditlog /etc/ceph /etc/cni /etc/kubernetes /opt/cni /opt/rke /run/secrets/kubernetes.io /run/calico /run/flannel /var/lib/calico /var/lib/etcd /var/lib/cni /var/lib/kubelet /var/lib/rancher/rke/log /var/log/containers /var/log/pods /var/run/calico"
+#
+# Prepare backup filename to be used
+backupfilename=/tmp/docker-data-backup-$HOSTNAME-$(date +%F_%H:%M:%S).tar.gz
+#
 # List running containers in Docker and store them in a file
 docker ps -q > /tmp/docker_ids
 #
@@ -16,7 +20,11 @@ docker ps -q > /tmp/docker_ids
 docker stop -t 60 $(cat /tmp/docker_ids)
 #
 # Backup all data using Tar
-tar zcvf /backup/docker-data-backup-$HOSTNAME-$(date +%F_%H:%M:%S).tar.gz $potentialdatadirs
+tar zcvf $backupfilename $potentialdatadirs
 #
 # Start all previously stopped containers
 docker start $(cat /tmp/docker_ids)
+#
+# Send backup file in AWS S3
+s3cmd -e put $backupfilename s3://$HOSTNAME
+#
