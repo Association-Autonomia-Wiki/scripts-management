@@ -31,3 +31,5 @@ docker start $(cat /tmp/docker_ids)
 # Send backup file in AWS S3
 s3cmd -e put $backupfilename s3://$HOSTNAME
 #
+# Delete previous backup on server
+rm $backupfilename
