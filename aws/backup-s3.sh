@@ -2,6 +2,7 @@
 # This script will backup docker/rancher data from the system to AWS S3 using s3cmd and encryption
 # Prerequisite is to install s3cmd using apt install s3cmd
 # Do Not forget to configure it using s3cmd --configure
+# And Do Not forget to create one S3 bucket for each server. The name should be the hostname.
 #
 # Regarding folder backup, by default for Rancher it is: /opt/rancher and /var/log/rancher/auditlog based on this installation:
 # docker run -d --restart=unless-stopped -p 80:80 -p 443:443 -e CATTLE_TLS_MIN_VERSION="1.2" -v /var/log/rancher/auditlog:/var/log/auditlog -e AUDIT_LEVEL=1 -v /opt/rancher:/var/lib/rancher rancher/rancher:latest --acme-domain <rancher-hostname>.<domain>.<ext>
