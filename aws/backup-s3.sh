@@ -1,5 +1,7 @@
 #!/bin/bash
 # This script will backup docker/rancher data from the system to AWS S3 using s3cmd and encryption
+# You can launch it using: cd /root && wget https://raw.githubusercontent.com/Association-Autonomia-Wiki/scripts-management/master/aws/backup-s3.sh && chmod +x /root/backup-s3.sh && /root/backup-s3.sh
+#
 # Prerequisite is to install s3cmd using apt install s3cmd
 # Do Not forget to configure it using s3cmd --configure
 # And Do Not forget to create one S3 bucket for each server. The name should be the hostname.
